@@ -1,5 +1,4 @@
 import type { ReactNode } from "react";
-
 export const FormLabel=({htmlFor,children}:Readonly<{htmlFor:string,children:ReactNode}>)=>
 {
   return(

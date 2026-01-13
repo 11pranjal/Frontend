@@ -1,15 +1,7 @@
 import LoginForm from "../../components/auth/LoginForm";
 import { useEffect } from "react";
 import { useOutletContext } from "react-router";
-import type { IOutletContext } from "../layout/AuthLayout";
-
-export interface IOutletContextProps {
-    pageTitle: string;
-    subTitle: string;
-    btnTxt: string;
-    btnLink: string;
-  }
-
+import { type IOutletContext } from "../layout/layout.contract";
 
 export default function LoginPage() {
   const outletContext = useOutletContext<IOutletContext>();

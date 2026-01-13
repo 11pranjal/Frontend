@@ -9,7 +9,6 @@ export const FormCancelButton=({label="Cancel"}:Readonly<{label:ReactNode}>)=>{
         </>
     )
 }
-
 export const FormSubmitButton=({label="Submit"}:Readonly<{label:ReactNode}>)=>{
     return(
         <>
