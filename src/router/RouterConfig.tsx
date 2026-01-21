@@ -40,6 +40,16 @@ const router = createBrowserRouter([
     ],
   },
   {
+    path: "/customer",
+    element: <UserLayout />,
+    children: [
+      {
+        index: true,
+        Component: UserDashboard,
+      },
+    ],
+  },
+  {
     path: "*",
     element: (
       <ErrorPage code={404} redirectLink="/" redirectTxt="Go Back To Home!!!" />

@@ -1,20 +1,20 @@
 import { useForm } from "react-hook-form";
 import { FormCancelButton, FormSubmitButton } from "../form/FormAction";
 import { FormInputControl } from "../form/FormInput";
-import { NavLink, useNavigate } from "react-router";
-import { LoginDTO, type ICredentials } from "../../pages/auth/auth.contract";
-import { zodResolver } from "@hookform/resolvers/zod";
-import axiosInstance from "../../config/axios.config";
 import { FormLabel } from "../form/FormLabel";
+import { NavLink, useNavigate } from "react-router";
+import { LoginDTO, type ICredentials, type IUser } from "../../pages/auth/auth.contract";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
- import Cookies from "js-cookie"
+import { useAuth } from "../../hooks/auth";
+
 
 
 export default function LoginForm() {
   const {
     control,
     handleSubmit,
-    formState: { errors,isSubmitting },
+    formState: { errors, isSubmitting },
   } = useForm({
     defaultValues: {
       email: "",
@@ -23,31 +23,23 @@ export default function LoginForm() {
     resolver: zodResolver(LoginDTO),
   });
 
-const navigate=useNavigate();
+  const { login } = useAuth()
 
-  const submitForm =async (credentials: ICredentials) => {
-   try{
-    const response=await axiosInstance.post("auth/login",credentials);
-  //console.log(response)
-     Cookies.set("token",response.data,{
-    expires:1,secure:true,sameSite:"lax"
-   })
-
-
-   const loggedInUser=await axiosInstance.get("auth/me");
-   //console.log(loggedInUser);
-    toast.success("Welcome to user Panel, "+loggedInUser.data.name)
-   navigate("/"+loggedInUser.data.role)
+  const navigate = useNavigate()
+  const submitForm = async (credentials: ICredentials) => {
+    try {
+      const loggedInUser = (await login(credentials)) as IUser
+      toast.success("Welcome to user Panel, " + loggedInUser.name)
+      navigate("/" + loggedInUser.role)
 
 
 
-   }catch{
-    //console.log(exception);
-    toast.error("Sorry!Could not login now!!!!",
-      {description:"There was some problem while logging you in at this moment,try again."}
-    )
-
-   }
+    } catch {
+      //console.log(exception)
+      toast.error("Sorry! Could not login now!!!", {
+        description: "There was some problem while login you in at this moment, try again."
+      })
+    }
   };
 
   return (

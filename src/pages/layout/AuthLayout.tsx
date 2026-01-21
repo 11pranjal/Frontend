@@ -1,7 +1,9 @@
-import { useState } from "react";
-import { NavLink, Outlet } from "react-router";
+import {  useEffect, useState } from "react";
+import { NavLink, Outlet, useNavigate } from "react-router";
 import { PageHeadingWithSubtitle } from "../../components/page-heading/PageHeading";
 import { type ILayoutData } from "./layout.contract";
+import { useAuth } from "../../hooks/auth";
+import { toast } from "sonner";
 
 export default function AuthLayout() {
   const [layoutData, setLayoutData] = useState<ILayoutData>({
@@ -10,6 +12,15 @@ export default function AuthLayout() {
     btnTxt: "Register Here",
     btnLink: "/register",
   });
+  const { loggedInUser } = useAuth()
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (loggedInUser) {
+      toast.info("Your are already logged in.");
+      navigate("/" + loggedInUser.role);
+    }
+  }, []);
   return (
     <>
       <section className="h-screen flex flex-col items-center justify-center p-2">
