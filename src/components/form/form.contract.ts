@@ -8,7 +8,24 @@ export interface IInputProps<T extends FieldValues> {
     errMsg?: string;
   }
 
+  export interface IFileInputProps<T extends FieldValues> {
+    name: Path<T>;
+    control: Control<T>;
+    errMsg?: string;
+    isMultiple?: boolean;
+  }
 
+  export interface ISingleListItem{
+  label:string,
+  value :string
+  }
+
+export interface ISelectProps<T extends FieldValues> {
+    name: Path<T>;
+    control: Control<T>;
+    errMsg?: string;
+    options:Array<ISingleListItem>
+  }
 
 
   export interface IGeneralInput {

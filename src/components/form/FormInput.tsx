@@ -3,7 +3,8 @@ import {
   useController,
   type FieldValues
 } from "react-hook-form";
-import {type IInputProps, type IFormInputProps, type IGeneralInput,  } from "./form.contract";
+import {type IInputProps, type IFormInputProps, type IGeneralInput, type ISelectProps, type ISingleListItem, type IFileInputProps,  } from "./form.contract";
+import type { BaseSyntheticEvent } from "react";
 
 export const FormInputControl = <T extends FieldValues>({
   name,
@@ -116,6 +117,69 @@ export const EmailInputControl = ({
           );
         }}
       ></Controller>
+    </>
+  );
+};
+
+export const SelectInput = <T extends FieldValues>({
+  name,
+  control,
+  options,
+  errMsg = "",
+}: Readonly<ISelectProps<T>>) => {
+  const { field } = useController({
+    name: name,
+    control: control,
+  });
+  return (
+    <>
+      <select
+        {...field}
+        className={`w-full p-2 rounded-lg border 
+          ${errMsg ? `border-red-500` : " border-gray-600"}
+       `}
+      >
+      <option value="">-- Select any one --</option>
+      {
+        options && options.map((row:ISingleListItem)=>(
+          <option value={row.value} key={row.value}>{row.label}</option>
+        ))
+      }
+
+      </select>
+      <span className="mt-1 text-sm text-red-500"> {errMsg} </span>
+    </>
+  );
+};
+
+export const FileInput = <T extends FieldValues>({
+  name,
+  control,
+  errMsg = "",
+  isMultiple = false,
+}: Readonly<IFileInputProps<T>>) => {
+  const { field } = useController({
+    name: name,
+    control: control,
+  });
+  return (
+    <>
+      <input
+        type={'file'}
+        multiple={isMultiple}
+       onChange={(e:BaseSyntheticEvent)=>{
+        const files=Object.values(e.target.files);
+       if (isMultiple){
+        field.onChange(files);
+       }else{
+        field.onChange(files[0]);
+       }
+       }}
+        className={`w-full p-2 rounded-lg border 
+          ${errMsg ? `border-red-500` : " border-gray-600"}
+       `}
+      />
+      <span className="mt-1 text-sm text-red-500"> {errMsg} </span>
     </>
   );
 };
