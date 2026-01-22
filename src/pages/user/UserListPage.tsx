@@ -9,7 +9,7 @@ export default function UserListPage() {
   useEffect(() => {
     setTimeout(() => {
       setQuery({
-        search: "Pranjal",
+        search: "Rushal",
         page: "1",
       });
     }, 5000);

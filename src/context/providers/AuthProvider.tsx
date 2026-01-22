@@ -4,7 +4,7 @@ import type { ICredentials, IUser } from "../../pages/auth/auth.contract";
 import axiosInstance from "../../config/axios.config";
 import Cookies from "js-cookie";
 
-export default function Authrovider({ children }: Readonly<{ children: ReactNode }>) {
+export default function AuthProvider({ children }: Readonly<{ children: ReactNode }>) {
 
     const [loggedInUser, setLoggedInUser] = useState<IUser | undefined>(undefined);
     const [loading, setLoading] = useState<boolean>(true);
@@ -44,16 +44,29 @@ export default function Authrovider({ children }: Readonly<{ children: ReactNode
         }
     };
 
+    const logout = async (): Promise<void> => {
+        try {
+            // If you have a specific logout API endpoint, call it here:
+            await axiosInstance.post("/auth/logout");
+        } catch (error) {
+            // Silently fail if network/API fails - still clear state/client
+        } finally {
+            Cookies.remove("token");
+            setLoggedInUser(undefined);
+        }
+    };
+    
+
     useEffect(() => {
         getLoggedInUser();
     }, []);
-
     return (
         <>
             {loading ? "Loading..." : (
                 <AuthContext.Provider value={{
                     login,
                     getLoggedInUser,
+                    logout,
                     loggedInUser
                 }}>
                     {children}

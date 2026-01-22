@@ -1,6 +1,6 @@
 import type { IUser } from "../../pages/auth/auth.contract"
 
-export const UserHeader = ({loggedInUser}: Readonly<{loggedInUser: IUser}>) => {
+export const UserHeader = ({ loggedInUser }: Readonly<{ loggedInUser: IUser }>) => {
     return (<>
         <header className="h-20 bg-gray-900 w-full text-white">
             <div className="flex items-center justify-between h-full px-8">
@@ -19,7 +19,7 @@ export const UserHeader = ({loggedInUser}: Readonly<{loggedInUser: IUser}>) => {
                         />
                     </svg>
                     <span className="font-bold text-xl tracking-wide">
-                        Admin Dashboard
+                        POS Admin
                     </span>
                 </div>
                 <nav className="flex items-center gap-6">
