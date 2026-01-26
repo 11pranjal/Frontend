@@ -9,7 +9,7 @@ export default function AuthProvider({ children }: Readonly<{ children: ReactNod
     const [loggedInUser, setLoggedInUser] = useState<IUser | undefined>(undefined);
     const [loading, setLoading] = useState<boolean>(true);
     const login = async (credentials: ICredentials): Promise<IUser | void> => {
-        // NOTE: axiosInstance response interceptor already returns response.data.data
+        // NOTE: axiosInstance response interceptor returns response.data.data for auth endpoints
 
         const response = await axiosInstance.post("/auth/login", credentials);
 
@@ -33,7 +33,7 @@ export default function AuthProvider({ children }: Readonly<{ children: ReactNod
 
     const getLoggedInUser = async (): Promise<IUser | void> => {
         try {
-            // axiosInstance interceptor already unwraps `response.data.data`
+            // axiosInstance interceptor returns response.data.data for auth endpoints
             const user = (await axiosInstance.get("/auth/me")) as unknown as IUser;
             setLoggedInUser(user);
             return user;

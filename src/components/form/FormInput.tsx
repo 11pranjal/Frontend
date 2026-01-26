@@ -3,7 +3,7 @@ import {
   useController,
   type FieldValues
 } from "react-hook-form";
-import {type IInputProps, type IFormInputProps, type IGeneralInput, type ISelectProps, type ISingleListItem, type IFileInputProps,  } from "./form.contract";
+import { type IInputProps, type IFormInputProps, type IGeneralInput, type ISelectProps, type ISingleListItem, type IFileInputProps, } from "./form.contract";
 import type { BaseSyntheticEvent } from "react";
 
 export const FormInputControl = <T extends FieldValues>({
@@ -31,9 +31,6 @@ export const FormInputControl = <T extends FieldValues>({
     </>
   );
 };
-
-
-
 export const FormInput = ({
   name,
   type,
@@ -139,12 +136,12 @@ export const SelectInput = <T extends FieldValues>({
           ${errMsg ? `border-red-500` : " border-gray-600"}
        `}
       >
-      <option value="">-- Select any one --</option>
-      {
-        options && options.map((row:ISingleListItem)=>(
-          <option value={row.value} key={row.value}>{row.label}</option>
-        ))
-      }
+        <option value="">-- Select any one --</option>
+        {
+          options && options.map((row: ISingleListItem) => (
+            <option value={row.value} key={row.value}>{row.label}</option>
+          ))
+        }
 
       </select>
       <span className="mt-1 text-sm text-red-500"> {errMsg} </span>
@@ -167,14 +164,14 @@ export const FileInput = <T extends FieldValues>({
       <input
         type={'file'}
         multiple={isMultiple}
-       onChange={(e:BaseSyntheticEvent)=>{
-        const files=Object.values(e.target.files);
-       if (isMultiple){
-        field.onChange(files);
-       }else{
-        field.onChange(files[0]);
-       }
-       }}
+        onChange={(e: BaseSyntheticEvent) => {
+          const files = Object.values(e.target.files);
+          if (isMultiple) {
+            field.onChange(files);
+          } else {
+            field.onChange(files[0]);
+          }
+        }}
         className={`w-full p-2 rounded-lg border 
           ${errMsg ? `border-red-500` : " border-gray-600"}
        `}
